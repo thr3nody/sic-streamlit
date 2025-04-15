@@ -6,10 +6,18 @@ st.set_page_config(
     page_icon="👋",
 )
 
-latest_data = {"CO": 0.4, "NO2": 0.03, "O3": 0.02}
-
 if st.button("Rephrase Data"):
     with st.spinner("Contacting AI…"):
-        res = requests.post("http://api:5000/environment", json=latest_data)
-        ai_text = res.json().get("text", "No response.")
+        try:
+            data_response = requests.get("http://api:5000/latest-data")
+            if data_response.status_code == 200:
+                latest_data = data_response.json()
+                res = requests.post(
+                    "http://api:5000/environment", json=latest_data
+                )
+                ai_text = res.json().get("text", "No response.")
+            else:
+                ai_text = "No data."
+        except requests.exceptions.RequestException as e:
+            ai_text = f"An error occurred: {e}"
     st.write("**AI Says:**", ai_text)
