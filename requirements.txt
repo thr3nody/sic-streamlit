@@ -1,0 +1,4 @@
+flask
+streamlit
+google-genai
+requests
