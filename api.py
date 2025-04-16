@@ -19,8 +19,8 @@ def post_environment():
     if not data:
         return jsonify({"message": "No data provided"}), 400
     prompt = (
-        "Rephrase the following gas sensor readings into clear, "
-        "natural language:\n\n" + str(data)
+        "Rephrase the following gas sensor readings into clear and fun natural language in less than a paraphraph, also describe where these gases might came from, then give safety suggestion to reduce health risk in such condition:\n\n"
+        + str(data)
     )
     resp = client.models.generate_content(model="gemini-2.0-flash", contents=prompt)
     return jsonify({"text": resp.text})
