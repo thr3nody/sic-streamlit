@@ -6,15 +6,19 @@ st.set_page_config(
     page_icon="👋",
 )
 
-if st.button("Rephrase Data"):
+st.write(
+    """
+# Your Friendly Environment Tracker :D
+"""
+)
+
+if st.button("Refresh Data"):
     with st.spinner("Contacting AI…"):
         try:
             data_response = requests.get("http://api:5000/latest-data")
             if data_response.status_code == 200:
                 latest_data = data_response.json()
-                res = requests.post(
-                    "http://api:5000/environment", json=latest_data
-                )
+                res = requests.post("http://api:5000/environment", json=latest_data)
                 ai_text = res.json().get("text", "No response.")
             else:
                 ai_text = "No data."
