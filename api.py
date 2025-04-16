@@ -5,7 +5,11 @@ from google import genai
 app = Flask(__name__)
 client = genai.Client(api_key=os.getenv("GEMINI_API"))
 
-latest_data = {}
+latest_data = {
+    "CO2": {"Unit": 400, "Status": "Dangerously High."},
+    "Hydrogen": {"Unit": 400, "Status": "High."},
+    "Data Type": "Placeholder Data",
+}
 
 
 @app.route("/hello")
@@ -20,6 +24,7 @@ def post_environment():
         return jsonify({"message": "No data provided"}), 400
     prompt = (
         "Rephrase the following gas sensor readings into clear and fun natural language in less than a paraphraph, also describe where these gases might came from, then give safety suggestion to reduce health risk in such condition:\n\n"
+        "Also watch out for a 'Data Type: Placeholder Data', tell user that the current data is just a test placeholder, but still keeping the fun and friendly report."
         + str(data)
     )
     resp = client.models.generate_content(model="gemini-2.0-flash", contents=prompt)
