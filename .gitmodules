@@ -1,0 +1,3 @@
+[submodule "sic-iot"]
+	path = sic-iot
+	url = git@github.com:thr3nody/sic-iot.git
